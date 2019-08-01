@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace ArdalisRating
 {
-  public class LandPolicyRater : Rater
+  public class FloodPolicyRater : Rater
   {
-    public LandPolicyRater(RatingEngine engine, ConsoleLogger logger)
-      :base(engine, logger)
+    public FloodPolicyRater(RatingEngine engine, ConsoleLogger logger)
+      : base(engine, logger)
     {
 
     }
     public override void Rate(Policy policy)
     {
-      _logger.Log("Rating LAND policy...");
+      _logger.Log("Rating FLOOD policy...");
       _logger.Log("Validating policy.");
       if (policy.BondAmount == 0 || policy.Valuation == 0)
       {
-        _logger.Log("Land policy must specify Bond Amount and Valuation.");
+        _logger.Log("Flood policy must specify Bond Amount and Valuation.");
         return;
       }
       if (policy.BondAmount < 0.8m * policy.Valuation)

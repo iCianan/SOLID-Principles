@@ -22,33 +22,16 @@ namespace ArdalisRating
       Logger.Log("Starting rate.");
       Logger.Log("Loading policy.");
 
-      // load policy - open file policy.json
       string policyJson = PolicySource.GetPolicyFromSource();
       var policy = PolicySerializer.GetPolicyFromJsonString(policyJson);
 
-      switch (policy.Type)
-      {
-        case PolicyType.Auto:
-          var autoRater = new AutoPolicyRater(this, this.Logger);
-          autoRater.Rate(policy);
-          break;
-
-        case PolicyType.Land:
-          var landRater = new LandPolicyRater(this, this.Logger);
-          landRater.Rate(policy);
-          break;
-
-        case PolicyType.Life:
-          var lifeRater = new LifePolicyRater(this, this.Logger);
-          lifeRater.Rate(policy);
-          break;
-
-        default:
-          Logger.Log("Unknown policy type");
-          break;
-      }
-
+      var factory = new RaterFactory();
+      var rater = factory.Create(policy, this);
+      rater.Rate(policy);
       Logger.Log("Rating completed.");
     }
+
+
+
   }
 }
