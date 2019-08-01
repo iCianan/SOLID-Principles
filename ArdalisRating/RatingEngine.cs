@@ -13,6 +13,7 @@ namespace ArdalisRating
   {
     public ConsoleLogger Logger { get; set; } = new ConsoleLogger();
     public FilePolicySource PolicySource { get; set; } = new FilePolicySource();
+    public FilePolicySerializer PolicySerializer { get; set; } = new FilePolicySerializer();
     public decimal Rating { get; set; }
     public void Rate()
     {
@@ -22,10 +23,8 @@ namespace ArdalisRating
 
       // load policy - open file policy.json
       string policyJson = PolicySource.GetPolicyFromSource();
-
-      var policy = JsonConvert.DeserializeObject<Policy>(policyJson,
-          new StringEnumConverter());
-
+      var policy = PolicySerializer.GetPolicyFromJsonString(policyJson);
+      
       switch (policy.Type)
       {
         case PolicyType.Auto:
