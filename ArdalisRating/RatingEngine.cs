@@ -14,7 +14,7 @@ namespace ArdalisRating
     public ConsoleLogger Logger { get; set; } = new ConsoleLogger();
     public FilePolicySource PolicySource { get; set; } = new FilePolicySource();
     public FilePolicySerializer PolicySerializer { get; set; } = new FilePolicySerializer();
-    public LifePolicyHolder PolicyHolder { get; set; } = new LifePolicyHolder();
+    public LifePolicyRater PolicyHolder { get; set; } 
     public decimal Rating { get; set; }
     public void Rate()
     {
@@ -25,7 +25,7 @@ namespace ArdalisRating
       // load policy - open file policy.json
       string policyJson = PolicySource.GetPolicyFromSource();
       var policy = PolicySerializer.GetPolicyFromJsonString(policyJson);
-      
+
       switch (policy.Type)
       {
         case PolicyType.Auto:
@@ -63,14 +63,8 @@ namespace ArdalisRating
           break;
 
         case PolicyType.Life:
-          Logger.Log("Rating LIFE policy...");
-          Logger.Log("Validating policy.");
-          if (PolicyHolder.isValid(policy))
-          {
-            var age = PolicyHolder.GetAge(policy);
-            decimal baseRate = PolicyHolder.GetBaseRate(policy, age);
-            Rating = PolicyHolder.GetRating(policy, baseRate);
-          }    
+          var lifeRater = new LifePolicyRater(this, this.Logger);
+          lifeRater.Rate(policy);
           break;
 
         default:

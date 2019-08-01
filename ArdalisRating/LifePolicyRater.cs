@@ -6,9 +6,27 @@ using System.Threading.Tasks;
 
 namespace ArdalisRating
 {
-  public class LifePolicyHolder
+  public class LifePolicyRater
   {
-    public ConsoleLogger Logger { get; set; } = new ConsoleLogger();
+    private readonly RatingEngine _engine;
+    private ConsoleLogger _logger;
+
+    public LifePolicyRater(RatingEngine engine, ConsoleLogger logger)
+    {
+      _engine = engine;
+      _logger = logger;
+    }
+    public void Rate(Policy policy)
+    {
+      _logger.Log("Rating LIFE policy...");
+      _logger.Log("Validating policy.");
+      if (isValid(policy))
+      {
+        var age = GetAge(policy);
+        decimal baseRate = GetBaseRate(policy, age);
+        _engine.Rating = GetRating(policy, baseRate);
+      }
+    }
     public int GetAge(Policy policy)
     {
       int age = DateTime.Today.Year - policy.DateOfBirth.Year;
@@ -26,17 +44,17 @@ namespace ArdalisRating
       var results = true;
       if (policy.DateOfBirth == DateTime.MinValue)
       {
-        Logger.Log("Life policy must include Date of Birth.");
+        _logger.Log("Life policy must include Date of Birth.");
         results = false;
       }
       if (policy.DateOfBirth < DateTime.Today.AddYears(-100))
       {
-        Logger.Log("Centenarians are not eligible for coverage.");
+        _logger.Log("Centenarians are not eligible for coverage.");
         results = false;
       }
       if (policy.Amount == 0)
       {
-        Logger.Log("Life policy must include an Amount.");
+        _logger.Log("Life policy must include an Amount.");
         results = false;
       }
       return results;
