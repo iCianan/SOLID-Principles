@@ -1,5 +1,10 @@
 ﻿{
-  "type": "Land",
-  "bondAmount": "1000000",
-  "valuation": "1100000"
+  "type": "Life",
+  //"bondAmount": "1000000",
+  //"valuation": "1100000"
+  
+  "FullName": "Keenan Irvin",
+  "DateOfBirth":"08/28/1990",
+  "IsSmoker":  false,
+  "Amount": "500000"
 }
