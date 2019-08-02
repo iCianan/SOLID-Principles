@@ -9,7 +9,7 @@
     }
     public override void Rate(Policy policy)
     {
-
+      _logger.Log("Unknown policy type");
     }
   }
 
