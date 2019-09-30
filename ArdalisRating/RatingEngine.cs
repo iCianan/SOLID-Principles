@@ -30,8 +30,5 @@ namespace ArdalisRating
       rater.Rate(policy);
       Logger.Log("Rating completed.");
     }
-
-
-
   }
 }
